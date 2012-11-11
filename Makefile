@@ -1,7 +1,15 @@
-all:
+EXECUTABLE=cp
 
-%.asm:
-	nasm -f elf $<
+all: vigenere clean
 
-%.o: %.asm
-	ld -s -o cp -melf_i386 $<
+%.o: %.nasm
+	nasm -f elf -o $@ $<
+
+vigenere: vigenere.o
+	ld -s -o $(EXECUTABLE) -melf_i386 $<
+
+clean:
+	rm -f *~ *.o
+
+clean-all: clean
+	rm $(EXECUTABLE)
